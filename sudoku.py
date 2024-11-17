@@ -455,5 +455,7 @@ def main():
         solution = solution_candidate.puzzle  # Lấy ma trận Sudoku đã giải
         writeOutput("output.txt", execution_time, solution)
 
+    return execution_time
+
 if __name__ == "__main__":
     main()
