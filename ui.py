@@ -1,6 +1,7 @@
 from sys import exit
 import pygame
 from sudoku import main as Sudoku
+from sudoku_gen import main as sudoku_gen
 
 pygame.init()
 
@@ -105,6 +106,8 @@ class Board:
             self.window.blit(text, (415, 555))
         elif level == "EASY":
             self.window.blit(text, (460, 555))
+        elif level == "INSANE":
+            self.window.blit(text, (415, 555))
     
     def redraw(self, time, level):
         self.window.fill((255, 255, 255))
@@ -156,7 +159,7 @@ class Tile:
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.options = ["EASY", "MEDIUM", "HARD"]
+        self.options = ["EASY", "MEDIUM", "HARD", "INSANE"]
         self.selected_index = 0
 
     def draw(self):
@@ -212,6 +215,7 @@ def main():
             level_selected = menu.handle_input()
             if level_selected:
                 level = level_selected
+                sudoku_gen(level)
                 board = Board(screen)
                 current_screen = "game"
                 solved = False
