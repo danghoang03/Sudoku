@@ -72,7 +72,7 @@ def emptySudoku():
                 z += 0
             c = cell((x,y,z))
             ans.append(c)
-    return ans
+    return ans 
 
 def printSudoku(sudoku, filename):
     row1 = []
@@ -119,6 +119,7 @@ def printSudoku(sudoku, filename):
 def sudokuGen():
     cells = [i for i in range(81)]
     sudoku = emptySudoku()
+    # backtrack_generate(sudoku)
     while len(cells) != 0:
         lowestNum = []
         Lowest = []
@@ -155,6 +156,28 @@ def sudokuGen():
                 if position1[2] == position2[2]:
                     sudoku[i].remove(finalValue)
     return sudoku
+
+def backtrack_generate(sudoku):
+    """Sử dụng backtracking để sinh ra bảng Sudoku hoàn chỉnh."""
+    for i in range(81):
+        if sudoku[i].returnSolved() == 0:  # Nếu ô hiện tại chưa có số
+            row, col = i // 9, i % 9
+            numbers = list(range(1, 10))
+            random.shuffle(numbers)  # Xáo trộn thứ tự số để tạo tính ngẫu nhiên
+
+            for num in numbers:
+                if is_valid(sudoku, row, col, num):
+                    sudoku[i].setAnswer(num)
+
+                    # Đệ quy gọi lại hàm để điền ô tiếp theo
+                    if backtrack_generate(sudoku):
+                        return True
+
+                    # Quay lui nếu không tìm được lời giải
+                    sudoku[i].reset()
+
+            return False  # Không có số hợp lệ nào để điền vào ô này
+    return True
 
 def perfectSudoku():
     result = False
@@ -211,12 +234,12 @@ def count_solutions(sudoku):
 def solve_and_count(sudoku, count):
     for i in range(81):
         if sudoku[i].returnSolved() == 0:
-            row, col = i // 9, i % 9
+            # row, col = i // 9, i % 9
             for num in range(1, 10):
-                if is_valid(sudoku, row, col, num):
-                    sudoku[i].setAnswer(num)
-                    count = solve_and_count(sudoku, count)
-                    sudoku[i].reset()
+                # if is_valid(sudoku, row, col, num):
+                sudoku[i].setAnswer(num)
+                count = solve_and_count(sudoku, count)
+                sudoku[i].reset()
             return count
     return count + 1
 
@@ -249,7 +272,7 @@ def generate_sudoku(sudoku, difficulty):
     elif difficulty == "INSANE":
         num_holes = random.randint(56, 64)
     else:
-        raise ValueError("Độ khó không hợp lệ!")
+        raise ValueError("Invalid difficulty level")
 
     remove_cells(sudoku, num_holes, difficulty)
     return sudoku
