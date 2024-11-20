@@ -106,8 +106,6 @@ class Board:
             self.window.blit(text, (415, 555))
         elif level == "EASY":
             self.window.blit(text, (460, 555))
-        elif level == "INSANE":
-            self.window.blit(text, (415, 555))
     
     def redraw(self, time, level):
         self.window.fill((255, 255, 255))
