@@ -159,7 +159,7 @@ class Tile:
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.options = ["EASY", "MEDIUM", "HARD", "INSANE"]
+        self.options = ["EASY", "MEDIUM", "HARD"]
         self.selected_index = 0
 
     def draw(self):
